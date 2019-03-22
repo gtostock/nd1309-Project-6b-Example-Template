@@ -8,8 +8,8 @@ contract FarmerRole {
     using Roles for Roles.Role;
 
     // Define 2 events, one for Adding, and other for Removing
-    event FarmerAdded(address indexed account);
-    event FarmerRemoved(address indexed account);
+    event FarmerAdded(address account);
+    event FarmerRemoved(address account);
 
     // Define a struct 'farmers' by inheriting from 'Roles' library, struct Role
     Roles.Role private farmers;
@@ -21,7 +21,7 @@ contract FarmerRole {
 
     // Define a modifier that checks to see if msg.sender has the appropriate role
     modifier onlyFarmer() {
-        require(isFarmer(msg.sender));
+        require(isFarmer(msg.sender), "This address does not belog to a farmer");
         _;
     }
 

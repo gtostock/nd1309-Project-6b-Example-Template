@@ -6,7 +6,7 @@ import "../coffeeaccesscontrol/FarmerRole.sol";
 import "../coffeeaccesscontrol/RetailerRole.sol";
 
 // Define a contract 'Supplychain'
-contract SupplyChain {
+contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole{
 
     // Define 'owner'
     address owner;
@@ -165,9 +165,8 @@ contract SupplyChain {
     }
 
     // Define a function 'harvestItem' that allows a farmer to mark an item 'Harvested'
-    function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public onlyOwner(_upc)
+    function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public
     {
-        // Add the new item as part of Harvest
         // Add the new item as part of Harvest
         items[_upc] = Item(
             sku,
@@ -264,9 +263,11 @@ contract SupplyChain {
       sold(_upc)
       // Call modifier to verify caller of this function
       onlyOwner(_upc)
+      //verifyCaller(items[_upc].distributorID)
       {
         // Update the appropriate fields
         items[_upc].itemState = State.Shipped;
+        //items[_upc].ownerID = msg.sender;
         // Emit the appropriate event
         emit Shipped(_upc);
     }
@@ -277,7 +278,7 @@ contract SupplyChain {
       // Call modifier to check if upc has passed previous supply chain stage
       shipped(_upc)
       // Access Control List enforced by calling Smart Contract / DApp
-      onlyOwner(_upc)
+      onlyRetailer()
       {
         // Update the appropriate fields - ownerID, retailerID, itemState
         items[_upc].ownerID = msg.sender;
@@ -293,7 +294,7 @@ contract SupplyChain {
       // Call modifier to check if upc has passed previous supply chain stage
       received(_upc)
       // Access Control List enforced by calling Smart Contract / DApp
-      onlyOwner(_upc)
+      onlyConsumer()
       {
         // Update the appropriate fields - ownerID, consumerID, itemState
         items[_upc].ownerID = msg.sender;

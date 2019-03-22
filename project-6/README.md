@@ -1,38 +1,50 @@
 # Blockchain Nanodegree - Supply Chain
 
-This project contains a smart contract written in Solidity to run a supply chain. This smart contract includes a front end to interact with the supply chain and it's deployed [in this link](https://urkopineda.gitlab.io/bcnd-supply-chain) using GitLab Pages.
+This project contains a smart contract implementation for a  a supply chain. 
+
+Following contracts are implemented -
+- contract AccessControl
+- contract Base is AccessControl
+- contract Core is Base
+
+##AccessControl - Collection of Contracts: Defines various actors and there roles and responsibilities.
+
+4 actors in a coffee supply chain are:
+
+Farmer: The Farmer can harvest coffee beans, process coffee beans, pack coffee palettes, add coffee palettes, ship coffee palettes, and track authenticity.
+Distributor: The Distributor can buy coffee palettes and track authenticity.
+Retailer: The Retailer can receive coffee palettes and track authenticity.
+Consumer: The consumer can buy coffee palettes and track authenticity.
+
+##Base - SupplyChain.sol: This class is the interface to call all the functionality.
+
+##Core - Ownable.sol: is the contract that controls ownership and transfer of ownership.
 
 ## RESULTS
 
 Results:
-- Wallet address `0xeC7a8c3815F30548B2F401EaCD3A3e0835507EbC`
-- Transaction hash for the contract creation: `0xcddd8ad032a7897a36b4b6add0c4875456e9177656f11d59e45761bdd7b69780`
-- Contract address: `0x1E152103069d6B766e6708343facF1ad90F6635C`
+https://rinkeby.etherscan.io/address/0x3ead5e07737037ca164975df271985558ab260f9
 
 Transaction history:
-- Harvested - `0x58443a3f38d94ad34ed3b6ffee4026b13f0e415f0e57d06f0cb596bc34b15c17`
-- Processed - `0x7a15a3feecba03d91871217b1317456424ad0d983c9c6336ec41da143fb3ba9f`
-- Packed - `0xbcab6d6d486066696d99522380861e5b687ad58862153820dc4c757be752f497`
-- ForSale - `0xc86b2b3c73f864b0d779c151fe5d2c2df14dfc9b8795520536ab05b0a598b706`
-- Sold - `0x48b1170c8e10a0be97dbece73d0811a6f80f677b34a18d1f7b603d47163c762a`
-- Shipped - `0xd160f10df72f56b1cc681bb4323a026930e0fe2be33533412e7b4d1da59793a5`
-- Received - `0x32e8837eba67af0997270357ae63cfd1cc2dfb39a596863cff0dcffa3e13e26c`
-- Purchased - `0x283bafe13859826fe87ada17481953a3c96241217bfe0873128b11243ebe6bb5`
+- Harvested - 0xd58b6dd45984903049093aaaac399a863142c2cbbc1dd3a967b3a65cef4ec02d
+- Processed - 0x23677b64c75f2162ea8a33007fad10fd463f83a63fb7a346e9fea50d52978510
+- Packed - 0xf4cd362dfa7739a9f778aef03b5c1fcbcc17ef85e01085830038e0e5cebd8e5d
+- ForSale - 0x71aab05df40655eea9b32ca9fe60b186550a4182e09bedf1cc9d31b3667fc525
 
 ## Running with Ganache CLI
-Use the command `ganache-cli -m "spirit supply whale amount human item harsh scare congress discover talent hamster"`
+Use the command `sudo ganache-cli -m "panic vapor cigar advance occur protect pipe know merry clock when gown"`
 
 ## Running front-end
 Use the command `npm run dev`
 
-## Testing
+## Testing using truffle
 
-Use the command `truffle test`, you will need to deploy a local network using, for example, Ganache.
+truffle test
 
 ## Compile
 
-To compile the smart contract, use `truffle compile`
+truffle compile --reset
 
 ## Deploy to the network
 
-Deploy the contract using `truffle migrate --network rinkeby`
+truffle migrate --reset --network rinkeby
