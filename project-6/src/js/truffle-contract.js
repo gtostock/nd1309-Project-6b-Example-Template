@@ -36,6 +36,8 @@ var contract = (function(module) {
 
       // Instanceof won't work because we have multiple versions of Web3.
       try {
+        console.log("Value may be a big number -- "+val);
+
         new BigNumber(val);
         return true;
       } catch (e) {
