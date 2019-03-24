@@ -12,16 +12,16 @@ The DApp User Interface when running should look like...
 
 ## Design
 ### Activity diagram
-![Activity diagram](images/Activity Diagram.png?raw=true)
+![Activity diagram](images/Activity_Diagram.png?raw=true)
 
 ### Sequence diagram
-![Sequence diagram](images/Sequence Diagram.png?raw=true)
+![Sequence diagram](images/Sequence_Diagram.png?raw=true)
 
 ### State diagram
-![State diagram](images/State Diagram.png?raw=true)
+![State diagram](images/State_Diagram.png?raw=true)
 
 ### Class diagram
-![Class diagram](images/Class diagram.png?raw=true)
+![Class diagram](images/Class_diagram.png?raw=true)
 
 ## Transaction History
 
