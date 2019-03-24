@@ -4,12 +4,13 @@ import "../coffeeaccesscontrol/ConsumerRole.sol";
 import "../coffeeaccesscontrol/DistributorRole.sol"; 
 import "../coffeeaccesscontrol/FarmerRole.sol"; 
 import "../coffeeaccesscontrol/RetailerRole.sol";
+import "../coffeecore/Ownable.sol";
 
 // Define a contract 'Supplychain'
-contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole{
+contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole, Ownable{
 
     // Define 'owner'
-    address owner;
+    //address owner;
 
     // Define a variable called 'upc' for Universal Product Code (UPC)
     uint  upc;
@@ -74,10 +75,35 @@ contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole{
     //     _;
     // }
 
-    modifier onlyOwner(uint _upc) {
-        require(msg.sender == items[_upc].ownerID, "Not the owner");
-        _;
-    }
+    // modifier onlyOwner(uint _upc) {
+    //     require(msg.sender == items[_upc].ownerID, "Not the owner");
+    //     _;
+    // }
+
+    modifier onlyOwner() {
+		isOwner();
+	  _;
+	}
+
+	modifier onlyFarmer() {
+		isFarmer(msg.sender);
+		_;
+	}
+
+	modifier onlyDistributor() {
+		isDistributor(msg.sender);
+		_;
+	}
+
+	modifier onlyRetailer() {
+		isRetailer(msg.sender);
+		_;
+	}
+
+	modifier onlyConsumer() {
+		isConsumer(msg.sender);
+		_;
+	}
 
 
     // Define a modifer that verifies the Caller
@@ -152,15 +178,51 @@ contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole{
     // and set 'sku' to 1
     // and set 'upc' to 1
     constructor() public payable {
-        owner = msg.sender;
+        //owner = msg.sender;
         sku = 1;
         upc = 1;
     }
 
+    function getOwner() public view returns (address)
+	{
+		return owner();
+	}
+
     // Define a function 'kill' if required
-    function kill() public {
-        if (msg.sender == owner) {
-            selfdestruct(owner);
+    function kill() public 
+    onlyOwner
+    {
+        selfdestruct(msg.sender);
+        // if (msg.sender == owner) {
+        //     selfdestruct(owner);
+        // }
+    }
+
+    // register farmer
+    function registerFarmer(address _farmer) public {
+        if(!isFarmer(_farmer)) {
+            _addFarmer(_farmer);
+        }
+    }
+
+    // register distributor
+    function registerDistributor(address _distributor) public {
+        if(!isDistributor(_distributor)) {
+            _addDistributor(_distributor);
+        }
+    }
+
+    // register retailer
+    function registerRetailer(address _retailer) public {
+        if(!isRetailer(_retailer)) {
+            _addRetailer(_retailer);
+        }
+    }
+
+    // register retailer
+    function registerConsumer(address _consumer) public {
+        if(!isConsumer(_consumer)) {
+            _addConsumer(_consumer);
         }
     }
 
@@ -185,7 +247,7 @@ contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole{
             0,
             0
         );
-
+        transferOwnership(_originFarmerID);
         // Increment sku
         sku = sku + 1;
         // Emit the appropriate event
@@ -197,7 +259,7 @@ contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole{
     // Call modifier to check if upc has passed previous supply chain stage
     harvested(_upc)
     // Call modifier to verify caller of this function
-    onlyOwner(_upc)
+    onlyFarmer
     {
         // Update the appropriate fields
         items[_upc].itemState = State.Processed;
@@ -210,7 +272,7 @@ contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole{
     // Call modifier to check if upc has passed previous supply chain stage
     processed(_upc)
     // Call modifier to verify caller of this function
-    onlyOwner(_upc)
+    onlyFarmer
     {
         // Update the appropriate fields
         items[_upc].itemState = State.Packed;        
@@ -223,7 +285,7 @@ contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole{
     // Call modifier to check if upc has passed previous supply chain stage
     packed(_upc)
     // Call modifier to verify caller of this function
-    onlyOwner(_upc)
+    onlyFarmer
     {
         // Update the appropriate fields
         items[_upc].productPrice = _price;
@@ -262,7 +324,7 @@ contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole{
       // Call modifier to check if upc has passed previous supply chain stage
       sold(_upc)
       // Call modifier to verify caller of this function
-      onlyOwner(_upc)
+      onlyDistributor()
       //verifyCaller(items[_upc].distributorID)
       {
         // Update the appropriate fields

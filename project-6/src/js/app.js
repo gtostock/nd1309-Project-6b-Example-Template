@@ -112,6 +112,15 @@ App = {
             App.fetchItemBufferTwo();
             App.fetchEvents();
 
+            App.getMetaskAccountID();
+
+            App.contracts.SupplyChain.deployed().then(function(instance){
+                instance.registerFarmer(App.originFarmerID, {from: App.metamaskAccountID});
+                instance.registerRetailer(App.retailerID, {from: App.metamaskAccountID});
+                instance.registerDistributor(App.distributorID, {from: App.metamaskAccountID});
+                instance.registerConsumer(App.consumerID, {from: App.metamaskAccountID});
+            });
+
         });
 
         return App.bindEvents();
@@ -119,6 +128,11 @@ App = {
 
     bindEvents: function() {
         $(document).on('click', App.handleButtonClick);
+
+        // await App.addFarmer(event)
+        // await App.addDistributor(event)
+        // await App.addRetailer(event)
+        // await App.addConsumer(event)
     },
 
     handleButtonClick: async function(event) {
@@ -131,6 +145,7 @@ App = {
 
         switch(processId) {
             case 1:
+                // await App.addFarmer(event)
                 return await App.harvestItem(event);
                 break;
             case 2:
@@ -143,15 +158,18 @@ App = {
                 return await App.sellItem(event);
                 break;
             case 5:
+                // await App.addDistributor(event)
                 return await App.buyItem(event);
                 break;
             case 6:
                 return await App.shipItem(event);
                 break;
             case 7:
+                // await App.addRetailer(event)
                 return await App.receiveItem(event);
                 break;
             case 8:
+                // await App.addConsumer(event)
                 return await App.purchaseItem(event);
                 break;
             case 9:
@@ -160,7 +178,24 @@ App = {
             case 10:
                 return await App.fetchItemBufferTwo(event);
                 break;
-            }
+            case 11:
+                return await App.addFarmer(event)
+            case 12:
+                return await App.addDistributor(event)
+            case 13:
+                return await App.addRetailer(event)
+            case 14:
+                return await App.addConsumer(event)
+            case 15:
+                return await App.isFarmer(event)
+            case 16:
+                return await App.isDistributor(event)
+            case 17:
+                return await App.isRetailer(event)
+            case 18:
+                return await App.isConsumer(event)
+        }
+
     },
 
     harvestItem: function(event) {
@@ -268,7 +303,7 @@ App = {
         console.log("App.upc -- "+App.upc)
         console.log("App.metamaskAccountID -- "+App.metamaskAccountID)
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.receiveItem(App.upc, {from: ""+App.metamaskAccountID});
+            return instance.receiveItem(App.upc, {from: App.metamaskAccountID});
         }).then(function(result) {
             $("#ftc-item").text(result);
             console.log('receiveItem',result);
