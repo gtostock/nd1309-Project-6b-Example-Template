@@ -10,7 +10,8 @@ The DApp User Interface when running should look like...
 
 ![truffle test](images/ftc_product_details.png)
 
-##Transaction History
+## Transaction History
+
 ConsumerAdded - 0x8c5b02cf5fa90f762ce4e1467c2ea92185c13c34c5833e1a0632075f3c0b9a60
 DistributorAdded - 0x686f6017b9c340be6adf6222fa4c9148aeb32c48c8b345e4fe3c6c0114768357
 RetailerAdded - 0x86b03251f4006a124ebcc83146aa173ba02689d5e9832e1c8081f07317eac0a6
