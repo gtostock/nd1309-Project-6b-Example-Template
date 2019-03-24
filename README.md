@@ -10,6 +10,19 @@ The DApp User Interface when running should look like...
 
 ![truffle test](images/ftc_product_details.png)
 
+## Design
+### Activity diagram
+![Activity diagram](images/Activity Diagram.png?raw=true)
+
+### Sequence diagram
+![Sequence diagram](images/Sequence Diagram.png?raw=true)
+
+### State diagram
+![State diagram](images/State Diagram.png?raw=true)
+
+### Class diagram
+![Class diagram](images/Class diagram.png?raw=true)
+
 ## Transaction History
 
 ### Contract
